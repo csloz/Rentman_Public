@@ -4,13 +4,11 @@
 """
 
 
-import os,  pandas as pd, requests_cache, time,  pandas as pd, requests
-from functools import wraps
+import os,  pandas as pd, requests_cache, pandas as pd  # install with pip install pandas requests-cache
 from dotenv import load_dotenv, find_dotenv  # Install with pip install python-dotenv
 
 start_date = "2025-01-01"
 end_date = "2025-12-31" 
-debug = False
 
 #Library in subfolder RentmanAPI
 from RentmanAPI.RentmanAPI import RentmanAPI  
@@ -35,7 +33,7 @@ pd.set_option('display.max_columns', None)
 
 
 #Instantiate the RentmanAPI class with the api token and URL
-rentman = RentmanAPI(api_token=api_token, api_url=api_url, debug=True)
+rentman = RentmanAPI(api_token=api_token, api_url=api_url, debug=True) #Set debug to True to see API call count at exit
 
     
 if __name__ == "__main__":
@@ -64,7 +62,7 @@ if __name__ == "__main__":
     #Pull Project Details individually, as if we pull as a group, we don't get the useful data.
     projectsdf = pd.DataFrame()
     for number in unique_project_ids:
-        if debug:
+        if rentman.debug:
             print (f"Fetching ProjectID:{number}")
         data = rentman.fetch_and_normalize(f'projects/{number}')
         projectsdf = pd.concat([projectsdf, data], ignore_index=True)
@@ -80,4 +78,9 @@ if __name__ == "__main__":
     #Fetch and normalize is used for smaller API calls that are under the max API size.
     
     #You can now process the DFs to do what you need for output.
+    #Results are cached by default, if you don't want to cache use
     
+    #with requests_cache.disabled():
+        #Call API without cache here 
+        
+        
