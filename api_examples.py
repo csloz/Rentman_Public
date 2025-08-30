@@ -71,8 +71,11 @@ if __name__ == "__main__":
     #and pull costs for those projects - use batch as this can easily be larger than the max call size.
     costsdf = rentman.batch_fetch_and_normalize(f'costs?project=', unique_project_ids_str)
     
+    #Output some of the above data.
     print(costsdf.head())
     print(projectsdf.head())
+    print(contactsdf.head())
+    
     
     #Batch Fetch pulls larger data sets in batches - useful where data is too big for an API call.
     #Fetch and normalize is used for smaller API calls that are under the max API size.
